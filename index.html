@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My dear paapu</title>
+<style>
+:root{--bg1:#fff0f6;--bg2:#ffd6e8;--pink:#ff2f92;--deep:#c2185b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2a0a1a;--bg2:#4a1030;--pink:#ff5fae;--deep:#ff8ac4}}
+:root[data-theme="dark"]{--bg1:#2a0a1a;--bg2:#4a1030;--pink:#ff5fae;--deep:#ff8ac4}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(circle at 50% 30%,var(--bg1),var(--bg2));font-family:"Georgia","Times New Roman",serif;overflow:hidden;position:relative}
+h1{position:absolute;top:8vh;left:0;right:0;margin:0;text-align:center;color:var(--pink);font-size:clamp(2.2rem,9vw,4.5rem);font-style:italic;text-shadow:0 2px 12px rgba(255,47,146,.35);padding:0 16px}
+.center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+#speak{background:linear-gradient(135deg,var(--pink),var(--deep));color:#fff;border:0;border-radius:999px;padding:18px 54px;font-size:1.5rem;font-family:inherit;cursor:pointer;box-shadow:0 8px 24px rgba(255,47,146,.45);animation:pulse 1.6s infinite}
+#speak:active{transform:scale(.95)}
+@keyframes pulse{50%{transform:scale(1.07)}}
+#love{color:var(--pink);font-size:clamp(2rem,8vw,4rem);font-style:italic;text-align:center;opacity:0;transform:scale(.6);transition:all 1s cubic-bezier(.2,1.6,.4,1);text-shadow:0 2px 12px rgba(255,47,146,.35);padding:0 16px;position:relative;z-index:5}
+#love.show{opacity:1;transform:scale(1)}
+.b{position:fixed;bottom:-140px;width:60px;height:76px;border-radius:50% 50% 48% 48%;animation:up linear forwards;z-index:3}
+.b::after{content:"";position:absolute;left:50%;bottom:-24px;width:1px;height:24px;background:rgba(120,120,120,.6)}
+@keyframes up{to{transform:translateY(-125vh) rotate(var(--r))}}
+.h{position:fixed;top:-30px;animation:fall linear forwards;z-index:4}
+@keyframes fall{to{transform:translateY(115vh) rotate(360deg)}}
+</style></head><body>
+<h1>My dear paapu</h1>
+<div class="center"><button id="speak">Speak</button><div id="love">I love u paapu 💖</div></div>
+<audio id="song" preload="auto" src="song.mp3"></audio>
+<script>
+const btn=document.getElementById('speak'),love=document.getElementById('love'),song=document.getElementById('song');
+const cols=['#ff2f92','#ff6fb5','#ff9ecf','#e91e63','#ffb3d9','#f06292','#ff4081'];
+const rnd=(a,b)=>a+Math.random()*(b-a);
+function balloon(){const e=document.createElement('div');e.className='b';e.style.left=rnd(2,92)+'vw';e.style.background='radial-gradient(circle at 30% 30%,#fff9,'+cols[Math.floor(rnd(0,cols.length))]+' 60%)';e.style.animationDuration=rnd(4,7)+'s';e.style.setProperty('--r',rnd(-25,25)+'deg');document.body.appendChild(e);setTimeout(()=>e.remove(),8000)}
+function heart(){const e=document.createElement('div');e.className='h';e.textContent=['💖','💗','💕','🎉'][Math.floor(rnd(0,4))];e.style.left=rnd(0,95)+'vw';e.style.fontSize=rnd(18,34)+'px';e.style.animationDuration=rnd(3,6)+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),7000)}
+btn.addEventListener('click',()=>{
+  btn.style.display='none';
+  song.muted=true;song.play().then(()=>{song.pause();song.currentTime=0}).catch(()=>{});
+  let n=0;const t=setInterval(()=>{balloon();balloon();heart();if(++n>30)clearInterval(t)},120);
+  setTimeout(()=>{
+    love.classList.add('show');
+    song.muted=false;song.currentTime=0;song.play().catch(()=>{});
+    setTimeout(()=>{song.pause()},30000);
+  },3500);
+});
+</script></body></html>
